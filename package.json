@@ -1,0 +1,43 @@
+{
+  "name": "pocket-notes",
+  "version": "1.0.0",
+  "description": "Pocket Notes",
+  "main": "server.js",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run build",
+    "lint": "eslint --quiet .",
+    "fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wparks08/pocket-notes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wparks08/pocket-notes/issues"
+  },
+  "homepage": "https://github.com/wparks08/pocket-notes#readme",
+  "devDependencies": {
+    "babel-eslint": "10.0.3",
+    "concurrently": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "if-env": "^1.0.4",
+    "morgan": "^1.9.1"
+  }
+}
