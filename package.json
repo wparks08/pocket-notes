@@ -26,18 +26,14 @@
   },
   "homepage": "https://github.com/wparks08/pocket-notes#readme",
   "devDependencies": {
-    "babel-eslint": "10.0.3",
     "concurrently": "^5.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3",
-    "nodemon": "^2.0.2",
-    "prettier": "^1.19.1"
+    "nodemon": "^2.0.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.17.1",
     "if-env": "^1.0.4",
+    "mongoose": "^5.3.16",
     "morgan": "^1.9.1"
   }
 }
