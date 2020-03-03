@@ -6,6 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { drawerWidth } from "../../config";
+import UserMenu from "../UserMenu";
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up("sm")]: {
             display: "none"
         }
+    },
+    title: {
+        flexGrow: 1
     }
 }));
 
@@ -37,9 +41,10 @@ function Topbar(props) {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" noWrap>
+                <Typography variant="h6" noWrap className={classes.title}>
                     Pocket Notes
                 </Typography>
+                <UserMenu />
             </Toolbar>
         </AppBar>
     );
