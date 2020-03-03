@@ -9,12 +9,13 @@ import ListIcon from "@material-ui/icons/List";
 import NoteIcon from "@material-ui/icons/Note";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar
 }));
 
-function SidebarContent() {
+function SidebarContent(props) {
     const classes = useStyles();
 
     return (
@@ -22,19 +23,19 @@ function SidebarContent() {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <ListItem button component={Link} to="/">
+                <ListItem button component={Link} to="/" onClick={props.handleDrawerToggle}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button component={Link} to="/categories">
+                <ListItem button component={Link} to="/categories" onClick={props.handleDrawerToggle}>
                     <ListItemIcon>
                         <ListIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
                 </ListItem>
-                <ListItem button component={Link} to="/notes">
+                <ListItem button component={Link} to="/notes" onClick={props.handleDrawerToggle}>
                     <ListItemIcon>
                         <NoteIcon />
                     </ListItemIcon>
@@ -44,5 +45,9 @@ function SidebarContent() {
         </div>
     );
 }
+
+SidebarContent.propTypes = {
+    handleDrawerToggle: PropTypes.func
+};
 
 export default SidebarContent;

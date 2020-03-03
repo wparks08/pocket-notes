@@ -35,7 +35,7 @@ function Sidebar(props) {
                     classes={{ paper: classes.drawerPaper }}
                     ModalProps={{ keepMounted: true }}
                 >
-                    <SidebarContent />
+                    <SidebarContent handleDrawerToggle={props.handleDrawerToggle} />
                 </Drawer>
             </Hidden>
             <Hidden xsDown implementation="css">
