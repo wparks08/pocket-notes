@@ -25,7 +25,7 @@ function UserMenu() {
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
-                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
                 keepMounted
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
                 open={open}
