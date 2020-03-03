@@ -6,14 +6,7 @@ import { Menu } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: "flex"
-    }
-}));
-
 function UserMenu() {
-    const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
