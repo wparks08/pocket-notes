@@ -8,6 +8,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
 import NoteIcon from "@material-ui/icons/Note";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar
@@ -21,19 +22,19 @@ function SidebarContent() {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button component={Link} to="/">
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to="/categories">
                     <ListItemIcon>
                         <ListIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to="/notes">
                     <ListItemIcon>
                         <NoteIcon />
                     </ListItemIcon>
