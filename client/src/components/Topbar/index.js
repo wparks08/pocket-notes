@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 function Topbar(props) {
     const classes = useStyles();
 
-
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
