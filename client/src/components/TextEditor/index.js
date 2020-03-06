@@ -8,7 +8,7 @@ function TextEditor(props) {
 
     //This will probably need to get lifted as well.
     // -- `content` holds all of the user-input content of the text editor. This will be the value we're looking for when saving the note to the db --
-    const handleEditorChange = (content, editor) => {
+    const handleEditorChange = content => {
         setText(content);
     };
 
