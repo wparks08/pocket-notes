@@ -10,4 +10,5 @@ function Notes() {
     );
 }
 
-export default Notes;
+
+export { default } from "./Notes.js";
