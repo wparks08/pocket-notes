@@ -1,3 +1,4 @@
 module.exports = {
-  Note: require("./note")
+    Category: require("./category"),
+    Note: require("./note")
 };

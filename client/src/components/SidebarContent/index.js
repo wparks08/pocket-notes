@@ -12,57 +12,42 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
-  toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar
 }));
 
 function SidebarContent(props) {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <div>
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        <ListItem
-          button
-          component={Link}
-          to="/"
-          onClick={props.handleDrawerToggle}
-        >
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
-          to="/categories"
-          onClick={props.handleDrawerToggle}
-        >
-          <ListItemIcon>
-            <ListIcon />
-          </ListItemIcon>
-          <ListItemText primary="Categories" />
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
-          to="/notes"
-          onClick={props.handleDrawerToggle}
-        >
-          <ListItemIcon>
-            <NoteIcon />
-          </ListItemIcon>
-          <ListItemText primary="Notes" />
-        </ListItem>
-      </List>
-    </div>
-  );
+    return (
+        <div>
+            <div className={classes.toolbar} />
+            <Divider />
+            <List>
+                <ListItem button component={Link} to="/" onClick={props.handleDrawerToggle}>
+                    <ListItemIcon>
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItem>
+                <ListItem button component={Link} to="/categories" onClick={props.handleDrawerToggle}>
+                    <ListItemIcon>
+                        <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Categories" />
+                </ListItem>
+                <ListItem button component={Link} to="/notes" onClick={props.handleDrawerToggle}>
+                    <ListItemIcon>
+                        <NoteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Notes" />
+                </ListItem>
+            </List>
+        </div>
+    );
 }
 
 SidebarContent.propTypes = {
-  handleDrawerToggle: PropTypes.func
+    handleDrawerToggle: PropTypes.func
 };
 
 export default SidebarContent;
