@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
 const db = require("../models");
 
-// Defining methods for the postsController
+// Defining methods for the notesController
 module.exports = {
   findAll: (req, res) => {
     db.Note.find(req.query)
       .sort({ date: -1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  findByCategory: (req, res) => {
+    db.Note.findByCategory(req.params.category)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

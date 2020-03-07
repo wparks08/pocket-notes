@@ -1,36 +1,36 @@
 const mongoose = require("mongoose");
 const db = require("../models");
 
-// This file empties the Posts collection and inserts the books below
+// This file empties the Notes collection and inserts the notes below
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
 
-const bookSeed = [
+const noteSeed = [
   {
-    title: "Hello World",
-    author: "admin",
+    date: new Date(Date.now()),
+    username: "admin",
+    category: "Hello World",
     body:
-      "Welcome to your first post! To create posts create a title and body. Don't forget to include your screen name!",
-    date: new Date(Date.now())
+      "Welcome to your first Pocket Note! To create notes create a category and body. Don't forget to sign in!"
   },
   {
-    title: "The Second Post",
-    author: "admin",
+    date: new Date(Date.now()),
+    username: "admin",
+    category: "Second Note",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    date: new Date(Date.now())
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   },
   {
-    title: "Another One",
-    author: "admin",
+    date: new Date(Date.now()),
+    username: "admin",
+    category: "Another One",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    date: new Date(Date.now())
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   }
 ];
 
-db.Post.remove({})
-  .then(() => db.Post.collection.insertMany(bookSeed))
+db.Note.remove({})
+  .then(() => db.Note.collection.insertMany(noteSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);
