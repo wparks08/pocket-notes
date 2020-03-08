@@ -5,7 +5,6 @@ const db = require("./db");
 
 const passport = require("passport"),
     localStrategy = require("passport-local").Strategy,
-    User = require(""),
     JWTStrategy = require("passport-jwt").Strategy,
     ExtractJWT = require("passport-jwt").ExtractJwt;
 

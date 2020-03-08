@@ -1,16 +1,19 @@
 require("dotenv").config();
 const express = require("express");
-const path = require("path");
+const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+// const path = require("path");
+const routes = require("./routes");
 
 require(".config/passport");
 // App & variables
-const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
+const PORT = process.env.PORT || 3001;
+
 // Middleware added here
 // - Web form and JSON handling
 app.use(express.urlencoded({ extended: true }));
@@ -27,12 +30,18 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API Routes here
+app.use(routes);
 
 // Route all other requests to React frontend
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
+// Transfer to routes/index.js
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
+// Connect to Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
+
+// Start API server
 app.listen(PORT, () => {
     console.log(`API Server running on port ${PORT}`);
 });
