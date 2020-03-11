@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-//import API from "../../utils/API";
+import API from "../../utils/API";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -19,6 +19,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import TextEditor from "../../components/TextEditor";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     },
     spacingTop: {
         marginTop: theme.spacing(6)
+    },
+    editorWrapper: {
+        marginTop: theme.spacing(2)
     }
 }));
 
@@ -33,30 +37,36 @@ function Notes() {
     // Setting our component's initial state
     const classes = useStyles();
     const [notes, setNotes] = useState([]);
-    const [secondary, setSecondary] = React.useState(false);
+    // const [secondary, setSecondary] = React.useState(false);
     const [formObject, setFormObject] = useState({
         noteName: "",
         Type: "",
         Description: ""
     });
+    const [currentNote, setCurrentNote] = useState(null);
 
     useEffect(() => {
         loadNotes();
-    }, []);
+        if (currentNote) {
+            console.log("need to send the note to the text editor");
+        }
+    });
 
-    function generate(element) {
-        return [0, 1, 2].map(value =>
-            React.cloneElement(element, {
-                key: value
-            })
-        );
-    }
+    useEffect(() => {
+        console.log(currentNote);
+    }, [currentNote]);
 
     function loadNotes() {
-        // API.getNotes()
-        //     .then(res => setNotes(res.data))
-        //     .catch(err => console.log(err));
+        API.getNotes("johnsmith")
+            .then(res => setNotes(res))
+            .catch(err => console.log(err));
     }
+
+    const handleNoteClick = event => {
+        const noteid = event.target.getAttribute("noteid"); //THIS IS A MOCK UP!
+        console.log(noteid);
+        setCurrentNote(notes[noteid]); //THIS WILL CHANGE
+    };
 
     function deleteNote(id) {
         // API.deleteNote(id)
@@ -93,38 +103,31 @@ function Notes() {
     }
 
     return (
-        <Container fluid>
+        <Container>
             <Grid container>
                 <Grid item md={12}>
                     <Typography variant="h3">Create/Delete Notes</Typography>
 
                     <form>
                         <Grid container>
-                            <Grid item>
-                                <TextField id="title" label="Title Required" />
+                            <Grid item xs={12}>
+                                <TextField id="title" label="Title" fullWidth required />
                             </Grid>
                         </Grid>
 
                         <Grid container>
-                            <Grid item>
-                                <TextField id="type" label="Type" />{" "}
+                            <Grid item xs={12}>
+                                <TextField id="type" label="Category" fullWidth required />{" "}
                             </Grid>
                         </Grid>
 
-                        <Grid container>
-                            <Grid item>
-                                <TextField
-                                    id="filled-multiline-static"
-                                    label="Multiline"
-                                    multiline
-                                    rows="4"
-                                    defaultValue="Default Value"
-                                    variant="filled"
-                                />
+                        <Grid container className={classes.editorWrapper}>
+                            <Grid item xs={12}>
+                                <TextEditor />
                             </Grid>
                         </Grid>
 
-                        <Grid container>
+                        <Grid container justify="flex-end">
                             <Grid item>
                                 <Button
                                     variant="contained"
@@ -145,39 +148,57 @@ function Notes() {
 
                     {notes.length ? (
                         <List>
+                            {notes.map((note, index) => (
+                                <ListItem key={index} button noteid={index} onClick={handleNoteClick}>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <FolderIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={note.title} secondary={note.category.category} />
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="delete">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                        </List>
+                    ) : (
+                        <Typography variant="h5">No results found.</Typography>
+                    )}
+
+                    {notes.length ? (
+                        // <List>
+                        <>
                             {notes.map(note => {
                                 return (
                                     <ListItem key={note._id}>
-                                        <a href={"/notes/" + note._id}>
-                                            <strong>
-                                                {note.noteName} by {note.Type}
-                                            </strong>
-                                        </a>
+                                        {/*<a href={"/notes/" + note._id}>*/}
+                                        {/*    <strong>*/}
+                                        {/*        {note.title} by {note.username}*/}
+                                        {/*    </strong>*/}
+                                        {/*</a>*/}
                                         <Grid container>
                                             <Grid item xs={12} md={6}>
-                                                <Typography variant="h6" className={classes.title}>
-                                                    Avatar with text and icon
-                                                </Typography>
                                                 <div className={classes.demo}>
                                                     <List>
-                                                        {generate(
-                                                            <ListItem>
-                                                                <ListItemAvatar>
-                                                                    <Avatar>
-                                                                        <FolderIcon />
-                                                                    </Avatar>
-                                                                </ListItemAvatar>
-                                                                <ListItemText
-                                                                    primary="Single-line item"
-                                                                    secondary={secondary ? "Secondary text" : null}
-                                                                />
-                                                                <ListItemSecondaryAction>
-                                                                    <IconButton edge="end" aria-label="delete">
-                                                                        <DeleteIcon />
-                                                                    </IconButton>
-                                                                </ListItemSecondaryAction>
-                                                            </ListItem>
-                                                        )}
+                                                        <ListItem>
+                                                            <ListItemAvatar>
+                                                                <Avatar>
+                                                                    <FolderIcon />
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={note.title}
+                                                                secondary={note.category.category}
+                                                            />
+                                                            <ListItemSecondaryAction>
+                                                                <IconButton edge="end" aria-label="delete">
+                                                                    <DeleteIcon />
+                                                                </IconButton>
+                                                            </ListItemSecondaryAction>
+                                                        </ListItem>
                                                     </List>
                                                 </div>
                                             </Grid>
@@ -194,7 +215,7 @@ function Notes() {
                                     </ListItem>
                                 );
                             })}
-                        </List>
+                        </>
                     ) : (
                         <h3>No Results to Display</h3>
                     )}
