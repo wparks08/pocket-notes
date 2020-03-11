@@ -3,8 +3,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import NoteIcon from "@material-ui/icons/Note";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { Link } from "react-router-dom";
 
-function LoginControls() {
+function LoginControls(props) {
     let isAuthenticated = true;
     return (
         isAuthenticated ?

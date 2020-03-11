@@ -2,7 +2,7 @@ const db = require("./db");
 const jwtSecret = require(process.env.CLIENT_SECRET);
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const validateLoginInput = require("../validation/login");
+const validateLoginInput = require("../client/src/validation/login");
 // Load User model
 
 module.exports = app => {

@@ -1,14 +1,10 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
-import jwtDecode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
-import {
-    GET_ERRORS,
-    USER_LOADING,
-    SET_CURRENT_USER
-} from "./types";
+import { GET_ERRORS, USER_LOADING, SET_CURRENT_USER } from "./types";
 
-export const registerUser = (userData, history) => {
+export const registerUser = (userData, history) => dispatch => {
     axios
         .post("/registerUser", userData)
         //redirects to login upon registration here

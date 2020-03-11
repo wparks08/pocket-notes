@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
     constructor() {
@@ -10,7 +13,18 @@ class Login extends Component {
             password: "",
             error: {}
         };
-    };
+    }
+    componentDidUpdate(nextProps) {
+        if (nextProps.auth.isAuthenticated) {
+            this.props.history.push("/home");
+        }
+        if (nextProps.error) {
+            this.setState({
+                error: nextProps.error
+            });
+        }
+    }
+
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
     };
@@ -20,6 +34,8 @@ class Login extends Component {
             username: this.state.username,
             password: this.state.password
         };
+        console.log(sensitiveData);
+        this.props.loginUser(sensitiveData);
     };
     render() {
         const { error } = this.state;
@@ -68,4 +84,17 @@ class Login extends Component {
         );
     }
 }
-export default Login;
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    auth: state.auth,
+    error: state.error
+});
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(Login);
+

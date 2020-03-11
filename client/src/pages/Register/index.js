@@ -1,5 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { registerUser } from "../../actions/authActions";
 
 class Register extends Component {
     constructor() {
@@ -11,8 +15,15 @@ class Register extends Component {
             username: "",
             password: "",
             password2: "",
-            errors: {}
+            error: {}
         };
+    }
+    componentDidUpdate(nextProps) {
+        if (nextProps.error) {
+            this.setState({
+                error: nextProps.error
+            });
+        }
     }
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
@@ -27,15 +38,18 @@ class Register extends Component {
             password: this.state.password,
             password2: this.state.password2
         };
+        console.log(newUser);
+        this.props.registerUser(newUser, this.props.history);
     };
     render() {
+        const { error } = this.state;
         return (
             <form noValidate onSubmit={this.onSubmit} >
                 <div className="input-field ">
                     <input
                         onChange={this.onChange}
                         value={this.state.firstName}
-                        error={errors.name}
+                        error={error.name}
                         id="name"
                         type="text"
                     />
@@ -55,7 +69,7 @@ class Register extends Component {
                     <input
                         onChange={this.onChange}
                         value={this.state.email}
-                        error={errors.email}
+                        error={error.email}
                         id="email"
                         type="email"
                     />
@@ -65,7 +79,7 @@ class Register extends Component {
                     <input
                         onChange={this.onChange}
                         value={this.state.password}
-                        error={errors.password}
+                        error={error.password}
                         id="password"
                         type="password"
                     />
@@ -75,7 +89,7 @@ class Register extends Component {
                     <input
                         onChange={this.onChange}
                         value={this.state.password2}
-                        error={errors.password2}
+                        error={error.password2}
                         id="password2"
                         type="password"
                     />
@@ -90,7 +104,7 @@ class Register extends Component {
                             marginTop: "1rem"
                         }}
                         type="submit"
-                        className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                        className=""
                     >
                         Sign up
                         </button>
@@ -98,5 +112,16 @@ class Register extends Component {
             </form>
         );
     }
+};
+Register.propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired
 }
-export default Register;
+const mapStateToProps = state => ({
+    auth: state.auth,
+    error: state.error
+});
+export default connect(
+    mapStateToProps, { registerUser }
+)(withRouter(Register));
