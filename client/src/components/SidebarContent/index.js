@@ -10,6 +10,7 @@ import NoteIcon from "@material-ui/icons/Note";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import LoginControls from "./LoginControls";
 
 const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar
@@ -41,6 +42,7 @@ function SidebarContent(props) {
                     </ListItemIcon>
                     <ListItemText primary="Notes" />
                 </ListItem>
+                <LoginControls />
             </List>
         </div>
     );

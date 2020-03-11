@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-const db = require("../client/src/models/category");
 
 // Defining methods for the categoriesController
 module.exports = {

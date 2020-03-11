@@ -1,6 +1,4 @@
 /* eslint-disable prettier/prettier */
-const db = require("../client/src/models/note");
-
 // Defining methods for the notesController
 module.exports = {
     findAll: (req, res) => {

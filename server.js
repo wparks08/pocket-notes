@@ -4,11 +4,10 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const passport = require("passport");
-// const path = require("path");
-const routes = require("./routes");
+const Passport = require("passport");
+const path = require("path");
+//const routes = require("./routes");
 
-require(".config/passport");
 // App & variables
 const app = express();
 app.use(cors());
@@ -22,8 +21,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // - Logging
 app.use(morgan("dev"));
-app.use(passport.initialize());
+app.use(Passport.initialize());
 
+require("../config/passport")(Passport);
 // Static assets for Heroku deploy
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));

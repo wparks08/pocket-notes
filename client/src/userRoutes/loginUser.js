@@ -1,31 +1,47 @@
 const db = require("./db");
 const jwtSecret = require(process.env.CLIENT_SECRET);
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
+const bcrypt = require("bcryptjs");
+const validateLoginInput = require("../validation/login");
+// Load User model
 
 module.exports = app => {
-    app.get("/loginUser", (req, res, next) => {
-        passport.authenticate("login", (err, user, info) => {
-            if (err) {
-                console.log(err);
+    app.post("/loginUser", (req, res, next) => {
+        const { error, isValid } = validateLoginInput(req.body);
+        if (!isValid) {
+            return res.status(400).json(error);
+        }
+        const username = req.body.username;
+        const password = req.body.password;
+        db.User.findOne({ username }).then(user => {
+            // Check if user exists
+            if (!user) {
+                return res.status(404).json({ emailnotfound: "Email not found" });
             }
-            if (info !== undefined) {
-                console.log(info.message);
-                res.send(info.message);
-            } else {
-                req.logIn(user, err => {
-                    db.User.findOne({
+            // Check password
+            bcrypt.compare(password, user.password).then(isMatch => {
+                if (isMatch) {
+                    const payload = {
+                        firstName: user.firstName,
                         username: user.username
-                    }).then(user => {
-                        const token = jwt.sign({ username: user.username }, jwtSecret);
-                        res.status(200).send({
-                            auth: true,
-                            token: token,
-                            message: "user found in db"
-                        });
-                    });
-                });
-            }
-        })(req, res, next);
-    });
-};
+                    };
+                    jwt.sign(
+                        payload,
+                        jwtSecret,
+                        {
+                            expiresIn: 31556926 // 1 year in seconds
+                        },
+                        (err, token) => {
+                            res.json({
+                                success: true,
+                                auth: true,
+                                token: token
+                            })
+                        }
+                    );
+                } else {
+                    return res.status(400).json({ passwordIncorrect: "Password is incorrect" })
+                }
+            })
+        });
+    };
