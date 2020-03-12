@@ -1,10 +1,12 @@
 const express = require("express");
-const path = require("path");
+const mongoose = require("mongoose");
 const morgan = require("morgan");
+const path = require("path");
+const routes = require("./routes");
 
 // App & variables
-const PORT = process.env.PORT || 3001;
 const app = express();
+const PORT = process.env.PORT || 3001;
 
 // Middleware added here
 // - Web form and JSON handling
@@ -19,12 +21,17 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // API Routes here
+app.use(routes);
 
 // Route all other requests to React frontend
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
+// Connect to Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
+
+// Start server
 app.listen(PORT, () => {
     console.log(`API Server running on port ${PORT}`);
 });
