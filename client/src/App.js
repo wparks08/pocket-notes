@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Categories from "./pages/Categories";
 import Notes from "./pages/Notes";
+import EditNote from "./pages/EditNote";
 
 function App() {
     return (
@@ -17,6 +18,9 @@ function App() {
                         <Switch>
                             <Route path="/categories">
                                 <Categories />
+                            </Route>
+                            <Route path="/notes/:id">
+                                <EditNote />
                             </Route>
                             <Route path="/notes">
                                 <Notes />

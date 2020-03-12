@@ -2,7 +2,11 @@ const axios = require("axios");
 
 export default {
     getNotes: username => {
-        return axios.get("/api/notes", { username: username });
+        return axios.get("/api/notes", { params: { username: username } });
+    },
+
+    getNote: id => {
+        return axios.get(`/api/notes/${id}`);
     },
 
     saveNote: note => {
