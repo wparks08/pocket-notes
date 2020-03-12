@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Notes() {
-    // Setting our component's initial state
+    //Setting our component's initial state
     const classes = useStyles();
     const [notes, setNotes] = useState([]);
     const [secondary, setSecondary] = React.useState(false);
@@ -40,9 +40,9 @@ function Notes() {
         Description: ""
     });
 
-    useEffect(() => {
-        loadNotes();
-    }, []);
+    // useEffect(() => {
+    //     loadNotes();
+    // }, []);
 
     function generate(element) {
         return [0, 1, 2].map(value =>
@@ -52,45 +52,45 @@ function Notes() {
         );
     }
 
-    function loadNotes() {
-        // API.getNotes()
-        //     .then(res => setNotes(res.data))
-        //     .catch(err => console.log(err));
-    }
+    // function loadNotes() {
+    //     API.getNotes()
+    //         .then(res => setNotes(res.data))
+    //         .catch(err => console.log(err));
+    // }
 
-    function deleteNote(id) {
-        // API.deleteNote(id)
-        //     .then(res => loadNotes())
-        //     .catch(err => console.log(err));
-    }
+    // function deleteNote(id) {
+    //     API.deleteNote(id)
+    //         .then(res => loadNotes())
+    //         .catch(err => console.log(err));
+    // }
 
     // Handles updating component state when the user types into the input field
-    function handleInputChange(event) {
-        const { name, value } = event.target;
-        setFormObject({ ...formObject, [name]: value });
-    }
+    // function handleInputChange(event) {
+    //     const { name, value } = event.target;
+    //     setFormObject({ ...formObject, [name]: value });
+    // }
 
     // When the form is submitted, use the API.saveNote method to save the Note data
     // Then reload notes from the database
-    function handleFormSubmit(event) {
-        // event.preventDefault();
-        // if (formObject.title && formObject.author) {
-        //     API.saveNote({
-        //         noteName: formObject.noteName,
-        //         Type: formObject.Type,
-        //         Description: formObject.Description
-        //     })
-        //         .then(() =>
-        //             setFormObject({
-        //                 noteName: "",
-        //                 Type: "",
-        //                 Description: ""
-        //             })
-        //         )
-        //         .then(() => loadNotes())
-        //         .catch(err => console.log(err));
-        // }
-    }
+    // function handleFormSubmit(event) {
+    // event.preventDefault();
+    // if (formObject.title && formObject.author) {
+    //     API.saveNote({
+    //         noteName: formObject.noteName,
+    //         Type: formObject.Type,
+    //         Description: formObject.Description
+    //     })
+    //         .then(() =>
+    //             setFormObject({
+    //                 noteName: "",
+    //                 Type: "",
+    //                 Description: ""
+    //             })
+    //         )
+    //         .then(() => loadNotes())
+    //         .catch(err => console.log(err));
+    // }
+    //}
 
     return (
         <Container fluid>
@@ -196,8 +196,8 @@ function Notes() {
                             })}
                         </List>
                     ) : (
-                        <h3>No Results to Display</h3>
-                    )}
+                            <h3>No Results to Display</h3>
+                        )}
                 </Grid>
             </Grid>
         </Container>

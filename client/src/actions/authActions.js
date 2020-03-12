@@ -1,0 +1,52 @@
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
+
+import { GET_ERRORS, USER_LOADING, SET_CURRENT_USER } from "./types";
+
+export const registerUser = (userData, history) => dispatch => {
+    axios
+        .post("/registerUser", userData)
+        //redirects to login upon registration here
+        .then(res => history.push("/loginUser"))
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+};
+export const loginUser = userData => dispatch => {
+    axios
+        .post("/loginUser", userData)
+        .then(res => {
+            //saves and sets token to local storage
+            const { token } = res.data;
+            localStorage.setItem("JwtToken", token);
+            setAuthToken(token);
+            const decoded = jwt_decode(token);
+            dispatch(setCurrentUser(decoded));
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+};
+export const setCurrentUser = decoded => {
+    return {
+        type: SET_CURRENT_USER,
+        payload: decoded
+    };
+};
+export const setUserLoading = () => {
+    return {
+        type: USER_LOADING
+    };
+};
+export const logoutUser = () => dispatch => {
+    localStorage.removeItem("JwtToken");
+    setAuthToken(false);
+    dispatch(setCurrentUser({}));
+};
