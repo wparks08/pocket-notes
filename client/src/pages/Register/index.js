@@ -34,7 +34,6 @@ class Register extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            username: this.state.username,
             password: this.state.password,
             password2: this.state.password2
         };

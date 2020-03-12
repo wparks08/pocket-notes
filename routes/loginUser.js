@@ -1,8 +1,8 @@
-const db = require("./db");
-const jwtSecret = require(process.env.CLIENT_SECRET);
+const db = require("../db");
+const jwtSecret = process.env.CLIENT_SECRET;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const validateLoginInput = require("../client/src/validation/login");
+const validateLoginInput = require("../validation/login");
 // Load User model
 
 module.exports = app => {
@@ -11,9 +11,9 @@ module.exports = app => {
         if (!isValid) {
             return res.status(400).json(error);
         }
-        const username = req.body.username;
+        const email = req.body.email;
         const password = req.body.password;
-        db.User.findOne({ username }).then(user => {
+        db.User.findOne({ email }).then(user => {
             // Check if user exists
             if (!user) {
                 return res.status(404).json({ emailnotfound: "Email not found" });
@@ -23,8 +23,9 @@ module.exports = app => {
                 if (isMatch) {
                     const payload = {
                         firstName: user.firstName,
-                        username: user.username
+                        email: user.email
                     };
+                    console.log("logged in!");
                     jwt.sign(
                         payload,
                         jwtSecret,
@@ -42,6 +43,8 @@ module.exports = app => {
                 } else {
                     return res.status(400).json({ passwordIncorrect: "Password is incorrect" })
                 }
-            })
+            });
         });
-    };
+    });
+};
+

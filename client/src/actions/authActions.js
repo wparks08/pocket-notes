@@ -4,9 +4,9 @@ import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, USER_LOADING, SET_CURRENT_USER } from "./types";
 
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (newUser, history) => dispatch => {
     axios
-        .post("/registerUser", userData)
+        .post("/registerUser", newUser)
         //redirects to login upon registration here
         .then(res => history.push("/loginUser"))
         .catch(err => {
@@ -16,9 +16,9 @@ export const registerUser = (userData, history) => dispatch => {
             });
         });
 };
-export const loginUser = userData => dispatch => {
+export const loginUser = sensitiveData => dispatch => {
     axios
-        .post("/loginUser", userData)
+        .post("/loginUser", sensitiveData)
         .then(res => {
             //saves and sets token to local storage
             const { token } = res.data;

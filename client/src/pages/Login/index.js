@@ -9,21 +9,21 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
-            username: "",
+            email: "",
             password: "",
             error: {}
         };
     }
-    componentDidUpdate(nextProps) {
-        if (nextProps.auth.isAuthenticated) {
-            this.props.history.push("/home");
-        }
-        if (nextProps.error) {
-            this.setState({
-                error: nextProps.error
-            });
-        }
-    }
+    // componentDidUpdate(nextProps) {
+    //     if (nextProps.auth.isAuthenticated) {
+    //         this.props.history.push("/home");
+    //     }
+    //     if (nextProps.error) {
+    //         this.setState({
+    //             error: nextProps.error
+    //         });
+    //     }
+    // }
 
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
@@ -31,7 +31,7 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault();
         const sensitiveData = {
-            username: this.state.username,
+            email: this.state.email,
             password: this.state.password
         };
         console.log(sensitiveData);
@@ -48,12 +48,13 @@ class Login extends Component {
                     <div className="">
                         <input
                             onChange={this.onChange}
-                            value={this.state.username}
-                            error={error.username}
-                            id="username"
-                            type="username"
+                            value={this.state.email}
+                            error={error.email}
+                            id="email"
+                            name="email"
+                            type="email"
                         />
-                        <label htmlFor="Username">Username</label>
+                        <label htmlFor="email">email</label>
                     </div>
                     <div className="">
                         <input

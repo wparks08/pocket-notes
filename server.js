@@ -31,7 +31,8 @@ if (process.env.NODE_ENV === "production") {
 
 // API Routes here
 app.use(routes);
-
+require("./routes/loginUser")(app);
+require("./routes/registerUser")(app);
 // Route all other requests to React frontend
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
