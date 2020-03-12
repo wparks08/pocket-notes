@@ -4,22 +4,24 @@ import ListItem from "@material-ui/core/ListItem";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { Link } from "react-router-dom";
+import List from "@material-ui/core/List";
 
 function LoginControls(props) {
     return (
-        <ListItem button component={Link} to="/registerUser" onClick={props.handleDrawerToggle}>
-            <ListItemIcon>
-                <VpnKeyIcon />
-            </ListItemIcon>
-            <ListItemText primary="Register" />
-        </ListItem>
-        <ListItem button component={Link} to="/loginUser" onClick={props.handleDrawerToggle}>
-            <ListItemIcon>
-                <VpnKeyIcon />
-            </ListItemIcon>
-            <ListItemText primary="Login" />
-        </ListItem>
-
+        <List>
+            <ListItem button component={Link} to="/registerUser" onClick={props.handleDrawerToggle}>
+                <ListItemIcon>
+                    <VpnKeyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Register" />
+            </ListItem>
+            <ListItem button component={Link} to="/loginUser" onClick={props.handleDrawerToggle}>
+                <ListItemIcon>
+                    <VpnKeyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Login" />
+            </ListItem>
+        </List>
     );
 }
 export default LoginControls;
