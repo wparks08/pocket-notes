@@ -18,13 +18,13 @@ class Register extends Component {
             error: {}
         };
     }
-    componentDidUpdate(nextProps) {
-        if (nextProps.error) {
-            this.setState({
-                error: nextProps.error
-            });
-        }
-    }
+    // componentDidUpdate(nextProps) {
+    //     if (nextProps.error) {
+    //         this.setState({
+    //             error: nextProps.error
+    //         });
+    //     }
+    // }
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
     };
@@ -38,7 +38,6 @@ class Register extends Component {
             password: this.state.password,
             password2: this.state.password2
         };
-        console.log(newUser);
         this.props.registerUser(newUser, this.props.history);
     };
     render() {
@@ -49,21 +48,23 @@ class Register extends Component {
                     <input
                         onChange={this.onChange}
                         value={this.state.firstName}
-                        error={error.name}
-                        id="name"
+                        error={error.firstName}
+                        id="firstName"
+                        name="firstName"
                         type="text"
                     />
-                    <label htmlFor="name"> First Name</label>
+                    <label htmlFor="firstName"> First Name</label>
                 </div>
                 <div className="input-field ">
                     <input
                         onChange={this.onChange}
                         value={this.state.lastName}
-                        error={error.name}
+                        error={error.lastName}
                         id="lastName"
+                        name="lastName"
                         type="text"
                     />
-                    <label htmlFor="name"> Last Name</label>
+                    <label htmlFor="lastName"> Last Name</label>
                 </div>
                 <div className="input-field ">
                     <input
