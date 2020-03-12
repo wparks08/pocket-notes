@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-// const path = require("path");
+const path = require("path");
 const routes = require("./routes");
 
 // App & variables
@@ -24,15 +24,14 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // Route all other requests to React frontend
-// Transfer to routes/index.js
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 // Connect to Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
 
-// Start API server
+// Start server
 app.listen(PORT, () => {
     console.log(`API Server running on port ${PORT}`);
 });

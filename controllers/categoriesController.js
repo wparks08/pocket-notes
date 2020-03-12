@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-const db = require("../models/category");
+const db = require("../models");
 
 // Defining methods for the categoriesController
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     update: (req, res) => {
-        db.Category.findOneAndUpdate({ _id: req.params.id }, req.body)
+        db.Category.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
