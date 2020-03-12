@@ -6,6 +6,7 @@ const noteSchema = new Schema({
     date: { type: Date, default: Date.now },
     username: { type: String, required: true },
     category: { type: String, required: true },
+    title: { type: String, required: true },
     body: String
 });
 

@@ -1,63 +1,42 @@
-/**********************/
-/* *   Mock Data    * */
-/*********************/
-
-const mockCategories = [
-    {
-        date: new Date(),
-        username: "johnsmith",
-        category: "My Notes"
-    }
-];
-
-const mockNotes = [
-    {
-        date: new Date(),
-        username: "johnsmith",
-        category: mockCategories[0],
-        title: "John Smith's First Note",
-        body: "Lorem ipsum fragilistic expialadocious"
-    },
-    {
-        date: new Date(),
-        username: "johnsmith",
-        category: mockCategories[0],
-        title: "John Smith's Second Note",
-        body: "suoicodalaipxe citsiligarf muspi meroL"
-    }
-];
+const axios = require("axios");
 
 export default {
     getNotes: username => {
-        return new Promise((resolve, reject) => {
-            try {
-                const result = mockNotes.filter(note => note.username === username);
-                resolve(result);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        return axios.get("/api/notes", { username: username });
+    },
+
+    saveNote: note => {
+        note.username = "johnsmith";
+        return axios.post("/api/notes", note);
+    },
+
+    updateNote: note => {
+        return axios.put(`/api/notes/${note._id}`, note);
+    },
+
+    deleteNote: id => {
+        return axios.delete(`/api/notes/${id}`);
     },
 
     getCategories: username => {
-        return new Promise((resolve, reject) => {
-            try {
-                const result = mockCategories.filter(category => category.username === username);
-                resolve(result);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        // return new Promise((resolve, reject) => {
+        //     try {
+        //         const result = mockCategories.filter(category => category.username === username);
+        //         resolve(result);
+        //     } catch (error) {
+        //         reject(error);
+        //     }
+        // });
     },
 
     getNotesByCategory: (username, category) => {
-        return new Promise((resolve, reject) => {
-            try {
-                const result = mockNotes.filter(note => note.username === username && note.category === category);
-                resolve(result);
-            } catch (error) {
-                reject(error);
-            }
-        });
+        // return new Promise((resolve, reject) => {
+        //     try {
+        //         const result = mockNotes.filter(note => note.username === username && note.category === category);
+        //         resolve(result);
+        //     } catch (error) {
+        //         reject(error);
+        //     }
+        // });
     }
 };

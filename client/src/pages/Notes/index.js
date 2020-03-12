@@ -20,6 +20,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextEditor from "../../components/TextEditor";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -43,35 +44,49 @@ function Notes() {
         Type: "",
         Description: ""
     });
-    const [currentNote, setCurrentNote] = useState(null);
+    const [currentNote, setCurrentNote] = useState({
+        _id: "",
+        title: "",
+        category: "",
+        body: ""
+    });
 
     useEffect(() => {
         loadNotes();
         if (currentNote) {
             console.log("need to send the note to the text editor");
         }
-    });
-
-    useEffect(() => {
-        console.log(currentNote);
-    }, [currentNote]);
+    }, []);
 
     function loadNotes() {
         API.getNotes("johnsmith")
-            .then(res => setNotes(res))
+            .then(res => {
+                console.log(res);
+                setNotes(res.data);
+            })
             .catch(err => console.log(err));
     }
 
-    const handleNoteClick = event => {
-        const noteid = event.target.getAttribute("noteid"); //THIS IS A MOCK UP!
-        console.log(noteid);
-        setCurrentNote(notes[noteid]); //THIS WILL CHANGE
+    const handleNoteClick = id => {
+        const note = notes.find(note => note._id === id);
+        setCurrentNote({
+            _id: note._id || "",
+            title: note.title || "",
+            category: note.category || "",
+            body: note.body || ""
+        });
+    };
+
+    const handleChange = event => {
+        const { name, value } = event.target;
+
+        setCurrentNote({ ...currentNote, [name]: value });
     };
 
     function deleteNote(id) {
-        // API.deleteNote(id)
-        //     .then(res => loadNotes())
-        //     .catch(err => console.log(err));
+        API.deleteNote(id)
+            .then(() => loadNotes())
+            .catch(err => console.log(err));
     }
 
     // Handles updating component state when the user types into the input field
@@ -82,25 +97,16 @@ function Notes() {
 
     // When the form is submitted, use the API.saveNote method to save the Note data
     // Then reload notes from the database
-    function handleFormSubmit(event) {
-        // event.preventDefault();
-        // if (formObject.title && formObject.author) {
-        //     API.saveNote({
-        //         noteName: formObject.noteName,
-        //         Type: formObject.Type,
-        //         Description: formObject.Description
-        //     })
-        //         .then(() =>
-        //             setFormObject({
-        //                 noteName: "",
-        //                 Type: "",
-        //                 Description: ""
-        //             })
-        //         )
-        //         .then(() => loadNotes())
-        //         .catch(err => console.log(err));
-        // }
-    }
+    const handleFormSubmit = () => {
+        console.log("handle form submit");
+        currentNote._id
+            ? API.updateNote(currentNote)
+                  .then(() => loadNotes())
+                  .catch(err => console.log(err))
+            : API.saveNote(currentNote)
+                  .then(() => loadNotes())
+                  .catch(err => console.log(err));
+    };
 
     return (
         <Container>
@@ -111,19 +117,35 @@ function Notes() {
                     <form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <TextField id="title" label="Title" fullWidth required />
+                                <TextField
+                                    id="title"
+                                    name="title"
+                                    label="Title"
+                                    fullWidth
+                                    required
+                                    value={currentNote.title}
+                                    onChange={handleChange}
+                                />
                             </Grid>
                         </Grid>
 
                         <Grid container>
                             <Grid item xs={12}>
-                                <TextField id="type" label="Category" fullWidth required />{" "}
+                                <TextField
+                                    id="category"
+                                    name="category"
+                                    label="Category"
+                                    fullWidth
+                                    required
+                                    value={currentNote.category}
+                                    onChange={handleChange}
+                                />
                             </Grid>
                         </Grid>
 
                         <Grid container className={classes.editorWrapper}>
                             <Grid item xs={12}>
-                                <TextEditor />
+                                <TextEditor setCurrentNote={setCurrentNote} currentNote={currentNote} />
                             </Grid>
                         </Grid>
 
@@ -135,6 +157,7 @@ function Notes() {
                                     size="large"
                                     className={classes.button}
                                     startIcon={<SaveIcon />}
+                                    onClick={handleFormSubmit}
                                 >
                                     Save
                                 </Button>
@@ -149,16 +172,23 @@ function Notes() {
                     {notes.length ? (
                         <List>
                             {notes.map((note, index) => (
-                                <ListItem key={index} button noteid={index} onClick={handleNoteClick}>
+                                <ListItem key={note._id}>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <FolderIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={note.title} secondary={note.category.category} />
+                                    <ListItemText primary={note.title} secondary={note.category} />
                                     <ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="delete">
+                                        <IconButton edge="end" aria-label="delete" onClick={() => deleteNote(note._id)}>
                                             <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="open"
+                                            onClick={() => handleNoteClick(note._id)}
+                                        >
+                                            <KeyboardArrowRightIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
@@ -166,58 +196,6 @@ function Notes() {
                         </List>
                     ) : (
                         <Typography variant="h5">No results found.</Typography>
-                    )}
-
-                    {notes.length ? (
-                        // <List>
-                        <>
-                            {notes.map(note => {
-                                return (
-                                    <ListItem key={note._id}>
-                                        {/*<a href={"/notes/" + note._id}>*/}
-                                        {/*    <strong>*/}
-                                        {/*        {note.title} by {note.username}*/}
-                                        {/*    </strong>*/}
-                                        {/*</a>*/}
-                                        <Grid container>
-                                            <Grid item xs={12} md={6}>
-                                                <div className={classes.demo}>
-                                                    <List>
-                                                        <ListItem>
-                                                            <ListItemAvatar>
-                                                                <Avatar>
-                                                                    <FolderIcon />
-                                                                </Avatar>
-                                                            </ListItemAvatar>
-                                                            <ListItemText
-                                                                primary={note.title}
-                                                                secondary={note.category.category}
-                                                            />
-                                                            <ListItemSecondaryAction>
-                                                                <IconButton edge="end" aria-label="delete">
-                                                                    <DeleteIcon />
-                                                                </IconButton>
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    </List>
-                                                </div>
-                                            </Grid>
-                                        </Grid>
-
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            className={classes.button}
-                                            startIcon={<DeleteIcon />}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </ListItem>
-                                );
-                            })}
-                        </>
-                    ) : (
-                        <h3>No Results to Display</h3>
                     )}
                 </Grid>
             </Grid>
