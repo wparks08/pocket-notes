@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import { green } from "@material-ui/core/colors";
+import {CircularProgress} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -13,12 +15,24 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         margin: theme.spacing(1)
+    },
+    progressWrapper: {
+        margin: theme.spacing(1),
+        position: "relative"
+    },
+    buttonProgress: {
+        color: green[500],
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        marginTop: -12,
+        marginLeft: -12
     }
 }));
 
 function NoteForm(props) {
     const classes = useStyles();
-    const { note, handleChange, handleFormSubmit, setNote } = props;
+    const { note, handleChange, handleFormSubmit, setNote, saving } = props;
     const { title, category } = note;
 
     return (
@@ -61,16 +75,19 @@ function NoteForm(props) {
 
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="large"
-                                className={classes.button}
-                                startIcon={<SaveIcon />}
-                                onClick={handleFormSubmit}
-                            >
-                                Save
-                            </Button>
+                            <div className={classes.progressWrapper}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    className={classes.button}
+                                    startIcon={<SaveIcon />}
+                                    onClick={handleFormSubmit}
+                                >
+                                    Save
+                                </Button>
+                                {saving && <CircularProgress size={24} className={classes.buttonProgress} />}
+                            </div>
                         </Grid>
                     </Grid>
                 </form>
@@ -85,7 +102,8 @@ NoteForm.propTypes = {
     handleFormSubmit: PropTypes.func,
     setNote: PropTypes.func,
     title: PropTypes.string,
-    category: PropTypes.string
+    category: PropTypes.string,
+    saving: PropTypes.bool
 };
 
 export default NoteForm;
