@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const Passport = require("passport");
 const path = require("path");
 const routes = require("./routes");
+const db = require("./db");
 
 // App & variables
 const app = express();
@@ -38,7 +39,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-// Connect to Mongo DB
+// Connect to Mongo DB 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
 
 // Start server

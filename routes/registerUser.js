@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports = app => {
     app.post("/registerUser", (req, res, next) => {
+        console.log(req.body);
         const { error, isValid } = validateRegisterInput(req.body);
         // Check validation
         if (!isValid) {
@@ -14,17 +15,17 @@ module.exports = app => {
                 if (err) {
                     throw err;
                 }
-                req.body.password = hash;
-                res.json();
+                db.User.create({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: hash
+                }).then(user => {
+                    console.log(user);
+                    res.status(200).json(user);
+                });
             });
         });
-        db.User.create({
-            firstName: req.body.first_name,
-            lastName: req.body.last_name,
-            email: req.body.email,
-            password: req.body.password
-        }).then(user => {
-            res.json(user, { message: "User created in db" });
-        });
+
     });
 };

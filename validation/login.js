@@ -2,10 +2,10 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 module.exports = function validateRegisterInput(data) {
     let error = {};
-    data.username = !isEmpty(data.username) ? data.username : "";
+    data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
 
-    if (Validator.isEmpty(data.username)) {
+    if (Validator.isEmpty(data.email)) {
         error.name = "Username must be entered";
     }
 

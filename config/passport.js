@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs");
+
 const jwtSecret = process.env;
 const db = require("../db");
 const JWTStrategy = require("passport-jwt").Strategy;
@@ -18,7 +18,7 @@ module.exports = passport => {
                     console.log("user found in db in passport");
                     done(null, user);
                 } else {
-                    console.log("user not found in db")
+                    console.log("user not found in db");
                     done(null, false);
                 }
             });
