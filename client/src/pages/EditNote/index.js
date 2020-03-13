@@ -17,7 +17,7 @@ function EditNote() {
     const { id } = useParams();
     const [noteId, setNoteId] = useState(id);
     const [note, setNote] = useState({
-        date: "",
+        date: new Date(),
         username: "",
         category: "",
         title: "",
@@ -51,7 +51,7 @@ function EditNote() {
 
     const handleFormSubmit = () => {
         setSaving(true);
-        const saveOrUpdate = noteId === "new" ? API.saveNote(note) : API.updateNote(note);
+        const saveOrUpdate = noteId === "new" ? API.saveNote({ ...note, date: new Date() }) : API.updateNote(note);
         saveOrUpdate
             .then(result => {
                 if (noteId === "new") {
