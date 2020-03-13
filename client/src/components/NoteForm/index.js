@@ -97,7 +97,11 @@ function NoteForm(props) {
 }
 
 NoteForm.propTypes = {
-    note: PropTypes.object,
+    note: PropTypes.shape({
+        title: PropTypes.string,
+        category: PropTypes.string,
+        body: PropTypes.string
+    }),
     handleChange: PropTypes.func,
     handleFormSubmit: PropTypes.func,
     setNote: PropTypes.func,

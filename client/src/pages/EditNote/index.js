@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import NoteForm from "../../components/NoteForm";
 import { Snackbar } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from "@material-ui/lab/Alert";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -15,6 +15,7 @@ function Alert(props) {
 
 function EditNote() {
     const { id } = useParams();
+    const [noteId, setNoteId] = useState(id);
     const [note, setNote] = useState({
         date: "",
         username: "",
@@ -34,7 +35,10 @@ function EditNote() {
     }, []);
 
     const loadNote = () => {
-        API.getNote(id)
+        if (noteId === "new") {
+            return;
+        }
+        API.getNote(noteId)
             .then(res => setNote(res.data))
             .catch(err => console.log(err));
     };
@@ -47,19 +51,26 @@ function EditNote() {
 
     const handleFormSubmit = () => {
         setSaving(true);
-        API.updateNote(note)
-            .then(() => {
+        const saveOrUpdate = noteId === "new" ? API.saveNote(note) : API.updateNote(note);
+        saveOrUpdate
+            .then(result => {
+                if (noteId === "new") {
+                    setNoteId(result.data._id);
+                    setNote({ ...note, _id: result.data._id });
+                }
                 loadNote();
-                setSaving(false);
-                setSnackbarMessage({ severity: "success", message: "Note saved" });
-                setOpen(true);
+                showSnackbar("success", "Note saved");
             })
             .catch(err => {
-                console.log(err)
-                setSaving(false);
-                setSnackbarMessage({ severity: "error", message: "An error occurred." });
-                setOpen(true);
+                console.log(err);
+                showSnackbar("error", "An error occurred");
             });
+    };
+
+    const showSnackbar = (severity, message) => {
+        setSaving(false);
+        setSnackbarMessage({ severity, message });
+        setOpen(true);
     };
 
     const handleClose = (event, reason) => {
@@ -74,7 +85,7 @@ function EditNote() {
         <Container>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link href="/notes">Notes</Link>
-                <Typography color="textPrimary">Edit Note</Typography>
+                <Typography color="textPrimary">{id === "new" ? "New Note" : "Edit Note"}</Typography>
             </Breadcrumbs>
             <NoteForm
                 note={note}
