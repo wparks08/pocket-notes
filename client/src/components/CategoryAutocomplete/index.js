@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import PropTypes from "prop-types";
@@ -8,7 +8,7 @@ const filter = createFilterOptions();
 
 function CategoryAutocomplete(props) {
     const [value, setValue] = useState(null);
-    const { categories, loadCategories, handleCategoryChange, initialValue } = props;
+    const { categories, setCategories, handleCategoryChange, initialValue } = props;
 
     useEffect(() => {
         if (initialValue) {
@@ -25,7 +25,7 @@ function CategoryAutocomplete(props) {
                         username: "johnsmith",
                         category: newValue.inputValue
                     }).then(newCategory => {
-                        loadCategories();
+                        setCategories([...categories, newCategory.data]);
                         setValue(newCategory.data);
                         handleCategoryChange(newCategory.data);
                     });
@@ -74,7 +74,7 @@ function CategoryAutocomplete(props) {
 
 CategoryAutocomplete.propTypes = {
     categories: PropTypes.array,
-    loadCategories: PropTypes.func,
+    setCategories: PropTypes.func,
     handleCategoryChange: PropTypes.func,
     initialValue: PropTypes.object
 };

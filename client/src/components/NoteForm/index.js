@@ -43,19 +43,22 @@ function NoteForm(props) {
     const [category, setCategory] = useState({ category: "" });
 
     useEffect(() => {
-        loadCategories();
-    }, [note]);
+        const loadCategories = () => {
+            API.getCategories("johnsmith")
+                .then(result => {
+                    setCategories(result.data);
+                })
+                .catch(err => console.log(err));
+        };
 
-    const loadCategories = () => {
-        API.getCategories("johnsmith")
-            .then(result => {
-                setCategories(result.data);
-                if (note.categoryID) {
-                    setCategory(categories.find(category => category._id === note.categoryID));
-                }
-            })
-            .catch(err => console.log(err));
-    };
+        loadCategories();
+    }, []);
+
+    useEffect(() => {
+        if (note.categoryID) {
+            setCategory(categories.find(category => category._id === note.categoryID));
+        }
+    }, [categories, note.categoryID]);
 
     return (
         <Grid container className={classes.wrapper}>
@@ -79,7 +82,7 @@ function NoteForm(props) {
                         <Grid item xs={12}>
                             <CategoryAutocomplete
                                 categories={categories}
-                                loadCategories={loadCategories}
+                                setCategories={setCategories}
                                 handleCategoryChange={handleCategoryChange}
                                 initialValue={category}
                             />
@@ -122,7 +125,8 @@ NoteForm.propTypes = {
     setNote: PropTypes.func,
     title: PropTypes.string,
     category: PropTypes.string,
-    saving: PropTypes.bool
+    saving: PropTypes.bool,
+    handleCategoryChange: PropTypes.func
 };
 
 export default NoteForm;

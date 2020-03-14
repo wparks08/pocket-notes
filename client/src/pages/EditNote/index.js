@@ -31,17 +31,17 @@ function EditNote() {
     });
 
     useEffect(() => {
-        loadNote();
-    }, []);
+        const loadNote = () => {
+            if (noteId === "new") {
+                return;
+            }
+            API.getNote(noteId)
+                .then(res => setNote(res.data))
+                .catch(err => console.log(err));
+        };
 
-    const loadNote = () => {
-        if (noteId === "new") {
-            return;
-        }
-        API.getNote(noteId)
-            .then(res => setNote(res.data))
-            .catch(err => console.log(err));
-    };
+        loadNote();
+    }, [noteId]);
 
     const handleChange = event => {
         const { name, value } = event.target;
@@ -69,7 +69,6 @@ function EditNote() {
                     setNoteId(result.data._id);
                     setNote({ ...note, _id: result.data._id });
                 }
-                loadNote();
                 showSnackbar("success", "Note saved");
             })
             .catch(err => {

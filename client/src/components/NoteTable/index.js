@@ -7,7 +7,6 @@ import { getComparator, stableSort } from "../../utils/sorting";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TablePagination from "@material-ui/core/TablePagination";
-import * as PropTypes from "prop-types";
 import React, {useEffect, useState} from "react";
 import NoteRow from "../NoteRow";
 import { makeStyles } from "@material-ui/core/styles";
