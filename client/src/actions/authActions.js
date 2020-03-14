@@ -16,7 +16,7 @@ export const registerUser = (newUser, history) => dispatch => {
             });
         });
 };
-export const loginUser = sensitiveData => dispatch => {
+export const loginUser = (sensitiveData, history) => dispatch => {
     axios
         .post("/loginUser", sensitiveData)
         .then(res => {
@@ -26,6 +26,7 @@ export const loginUser = sensitiveData => dispatch => {
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
+            history.push("/notes");
         })
         .catch(err => {
             dispatch({

@@ -4,6 +4,7 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import { withRouter } from "react-router-dom";
 
 class Login extends Component {
     constructor() {
@@ -14,17 +15,12 @@ class Login extends Component {
             error: {}
         };
     }
-    // componentDidUpdate(nextProps) {
-    //     if (nextProps.auth.isAuthenticated) {
-    //         this.props.history.push("/home");
-    //     }
-    //     if (nextProps.error) {
-    //         this.setState({
-    //             error: nextProps.error
-    //         });
-    //     }
-    // }
-
+    componentDidMount() {
+        // If logged in and user navigates to Login page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/dashboard");
+        }
+    }
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
     };
@@ -35,7 +31,7 @@ class Login extends Component {
             password: this.state.password
         };
         console.log(sensitiveData);
-        this.props.loginUser(sensitiveData);
+        this.props.loginUser(sensitiveData, this.props.history);
     };
     render() {
         const { error } = this.state;
@@ -97,5 +93,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { loginUser }
-)(Login);
-
+)(withRouter(Login));
