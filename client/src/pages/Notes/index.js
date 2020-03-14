@@ -135,10 +135,22 @@ function Notes() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
+        loadNotes();
+    }, []);
+
+    const loadNotes = () => {
         API.getNotes("johnsmith")
             .then(response => setNotes(response.data))
             .catch(err => console.log(err));
-    }, []);
+    };
+
+    const handleDelete = id => {
+        API.deleteNote(id)
+            .then(() => {
+                loadNotes();
+            })
+            .catch(err => console.log(err));
+    };
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -188,12 +200,30 @@ function Notes() {
                                                         {note.title}
                                                     </TableCell>
                                                     <TableCell align="left">{note.category}</TableCell>
-                                                    <TableCell align="left">{note.date}</TableCell>
+                                                    <TableCell align="left">
+                                                        {new Date(note.date).toLocaleDateString(undefined, {
+                                                            year: "numeric",
+                                                            month: "long",
+                                                            day: "numeric",
+                                                            hour12: true,
+                                                            hour: "numeric",
+                                                            minute: "numeric"
+                                                        })}
+                                                    </TableCell>
                                                     <TableCell align="right">
-                                                        <IconButton size="small" className={classes.actionButton}>
+                                                        <IconButton
+                                                            size="small"
+                                                            className={classes.actionButton}
+                                                            onClick={() => handleDelete(note._id)}
+                                                        >
                                                             <DeleteIcon />
                                                         </IconButton>
-                                                        <IconButton size="small" className={classes.actionButton} component={Link} to={`/notes/${note._id}`}>
+                                                        <IconButton
+                                                            size="small"
+                                                            className={classes.actionButton}
+                                                            component={Link}
+                                                            to={`/notes/${note._id}`}
+                                                        >
                                                             <EditIcon />
                                                         </IconButton>
                                                     </TableCell>
