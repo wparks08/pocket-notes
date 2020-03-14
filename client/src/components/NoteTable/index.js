@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TablePagination from "@material-ui/core/TablePagination";
 import * as PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import NoteRow from "../NoteRow";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API";
@@ -23,13 +23,37 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function NoteTable(props) {
+function NoteTable() {
     const classes = useStyles();
-    const { notes, loadNotes } = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("date");
+
+    const [notes, setNotes] = useState([]);
+
+    useEffect(() => {
+        const loadNotes = () => {
+            API.getNotes("johnsmith")
+                .then(response => {
+                    let notes = response.data;
+                    API.getCategories("johnsmith").then(response => {
+                        let categories = response.data;
+                        setNotes(populateCategories(notes, categories));
+                    });
+                })
+                .catch(err => console.log(err));
+        };
+
+        loadNotes();
+    }, []);
+
+    const populateCategories = (noteArray, categoryArray) => {
+        return noteArray.map(note => {
+            note.category = categoryArray.find(category => category._id === note.categoryID)?.category;
+            return note;
+        });
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -50,6 +74,18 @@ function NoteTable(props) {
         API.deleteNote(id)
             .then(() => {
                 loadNotes();
+            })
+            .catch(err => console.log(err));
+    };
+
+    const loadNotes = () => {
+        API.getNotes("johnsmith")
+            .then(response => {
+                let notes = response.data;
+                API.getCategories("johnsmith").then(response => {
+                    let categories = response.data;
+                    setNotes(populateCategories(notes, categories));
+                });
             })
             .catch(err => console.log(err));
     };
@@ -89,10 +125,5 @@ function NoteTable(props) {
         </Paper>
     );
 }
-
-NoteTable.propTypes = {
-    notes: PropTypes.array,
-    loadNotes: PropTypes.func
-};
 
 export default NoteTable;

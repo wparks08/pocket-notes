@@ -20,31 +20,6 @@ const useStyles = makeStyles(theme => ({
 
 function Notes() {
     const classes = useStyles();
-    const [notes, setNotes] = useState([]);
-
-    useEffect(() => {
-        loadNotes();
-    }, []);
-
-    const loadNotes = () => {
-        API.getNotes("johnsmith")
-            .then(response => {
-                // setNotes(response.data)
-                let notes = response.data;
-                API.getCategories("johnsmith").then(response => {
-                    let categories = response.data;
-                    setNotes(populateCategories(notes, categories));
-                });
-            })
-            .catch(err => console.log(err));
-    };
-
-    const populateCategories = (noteArray, categoryArray) => {
-        return noteArray.map(note => {
-            note.category = categoryArray.find(category => category._id === note.categoryID)?.category;
-            return note;
-        });
-    };
 
     return (
         <Container>
@@ -58,7 +33,7 @@ function Notes() {
             </Grid>
             <Grid container className={classes.root}>
                 <Grid item xs={12}>
-                    <NoteTable notes={notes} loadNotes={loadNotes} />
+                    <NoteTable />
                 </Grid>
             </Grid>
         </Container>
