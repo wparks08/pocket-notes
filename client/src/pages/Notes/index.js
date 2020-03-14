@@ -28,8 +28,22 @@ function Notes() {
 
     const loadNotes = () => {
         API.getNotes("johnsmith")
-            .then(response => setNotes(response.data))
+            .then(response => {
+                // setNotes(response.data)
+                let notes = response.data;
+                API.getCategories("johnsmith").then(response => {
+                    let categories = response.data;
+                    setNotes(populateCategories(notes, categories));
+                });
+            })
             .catch(err => console.log(err));
+    };
+
+    const populateCategories = (noteArray, categoryArray) => {
+        return noteArray.map(note => {
+            note.category = categoryArray.find(category => category._id === note.categoryID)?.category;
+            return note;
+        });
     };
 
     return (

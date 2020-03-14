@@ -49,6 +49,17 @@ function EditNote() {
         setNote({ ...note, [name]: value });
     };
 
+    const handleCategoryChange = category => {
+        // Handle when category input is cleared
+        if (!category) {
+            setNote({ ...note, categoryID: ""});
+            return;
+        }
+        // Otherwise set the new category id
+        const { _id } = category;
+        setNote({ ...note, categoryID: _id });
+    };
+
     const handleFormSubmit = () => {
         setSaving(true);
         const saveOrUpdate = noteId === "new" ? API.saveNote({ ...note, date: new Date() }) : API.updateNote(note);
@@ -91,6 +102,7 @@ function EditNote() {
                 note={note}
                 handleFormSubmit={handleFormSubmit}
                 handleChange={handleChange}
+                handleCategoryChange={handleCategoryChange}
                 setNote={setNote}
                 saving={saving}
             />

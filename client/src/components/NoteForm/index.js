@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import TextEditor from "../TextEditor";
@@ -7,7 +7,9 @@ import SaveIcon from "@material-ui/icons/Save";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { green } from "@material-ui/core/colors";
-import {CircularProgress} from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
+import CategoryAutocomplete from "../CategoryAutocomplete";
+import API from "../../utils/API";
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -27,13 +29,33 @@ const useStyles = makeStyles(theme => ({
         left: "50%",
         marginTop: -12,
         marginLeft: -12
+    },
+    fullWidth: {
+        width: "100%"
     }
 }));
 
 function NoteForm(props) {
     const classes = useStyles();
-    const { note, handleChange, handleFormSubmit, setNote, saving } = props;
-    const { title, category } = note;
+    const { note, handleChange, handleFormSubmit, setNote, saving, handleCategoryChange } = props;
+    const { title } = note;
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState({ category: "" });
+
+    useEffect(() => {
+        loadCategories();
+    }, [note]);
+
+    const loadCategories = () => {
+        API.getCategories("johnsmith")
+            .then(result => {
+                setCategories(result.data);
+                if (note.categoryID) {
+                    setCategory(categories.find(category => category._id === note.categoryID));
+                }
+            })
+            .catch(err => console.log(err));
+    };
 
     return (
         <Grid container className={classes.wrapper}>
@@ -55,14 +77,11 @@ function NoteForm(props) {
 
                     <Grid container>
                         <Grid item xs={12}>
-                            <TextField
-                                id="category"
-                                name="category"
-                                label="Category"
-                                fullWidth
-                                required
-                                value={category}
-                                onChange={handleChange}
+                            <CategoryAutocomplete
+                                categories={categories}
+                                loadCategories={loadCategories}
+                                handleCategoryChange={handleCategoryChange}
+                                initialValue={category}
                             />
                         </Grid>
                     </Grid>
@@ -97,11 +116,7 @@ function NoteForm(props) {
 }
 
 NoteForm.propTypes = {
-    note: PropTypes.shape({
-        title: PropTypes.string,
-        category: PropTypes.string,
-        body: PropTypes.string
-    }),
+    note: PropTypes.object,
     handleChange: PropTypes.func,
     handleFormSubmit: PropTypes.func,
     setNote: PropTypes.func,

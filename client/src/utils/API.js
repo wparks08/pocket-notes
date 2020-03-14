@@ -23,14 +23,15 @@ export default {
     },
 
     getCategories: username => {
-        // return new Promise((resolve, reject) => {
-        //     try {
-        //         const result = mockCategories.filter(category => category.username === username);
-        //         resolve(result);
-        //     } catch (error) {
-        //         reject(error);
-        //     }
-        // });
+        return axios.get("/api/categories", { params: { username: username } });
+    },
+
+    getCategory: id => {
+        return axios.get(`/api/categories/${id}`);
+    },
+
+    saveCategory: category => {
+        return axios.post("/api/categories", category);
     },
 
     getNotesByCategory: (username, category) => {
