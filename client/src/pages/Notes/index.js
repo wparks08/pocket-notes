@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from "react";
-
-//import API from "../../utils/API";
-
-import Grid from "@material-ui/core/Grid";
+import React, {useEffect, useState} from "react";
 import Container from "@material-ui/core/Container";
-
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
-import SaveIcon from "@material-ui/icons/Save";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import IconButton from "@material-ui/core/IconButton";
-import FolderIcon from "@material-ui/icons/Folder";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import NoteTable from "../../components/NoteTable";
+import { useParams } from "react-router-dom";
+import API from "../../utils/API";
 
 const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(1)
+    root: {
+        width: "100%"
     },
-    spacingTop: {
-        marginTop: theme.spacing(6)
+    button: {
+        marginBottom: theme.spacing(1)
     }
 }));
 
 function Notes() {
+<<<<<<< HEAD
     //Setting our component's initial state
+=======
+>>>>>>> c0fb0961e2416a969e629eec3453b93923371b7e
     const classes = useStyles();
-    const [notes, setNotes] = useState([]);
-    const [secondary, setSecondary] = React.useState(false);
-    const [formObject, setFormObject] = useState({
-        noteName: "",
-        Type: "",
-        Description: ""
-    });
+    const { categoryID } = useParams();
+    const [categoryName, setCategoryName] = useState("");
 
+<<<<<<< HEAD
     // useEffect(() => {
     //     loadNotes();
     // }, []);
@@ -198,6 +187,35 @@ function Notes() {
                     ) : (
                             <h3>No Results to Display</h3>
                         )}
+=======
+    useEffect(() => {
+        API.getCategory(categoryID)
+            .then(result => setCategoryName(result.data.category))
+            .catch(err => console.log(err));
+    }, [categoryID]);
+
+    return (
+        <Container>
+            {categoryID ? (
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link to="/categories">Categories</Link>
+                    <Typography color="textPrimary">{categoryName}</Typography>
+                </Breadcrumbs>
+            ) : (
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Typography color="textPrimary">Notes</Typography>
+                </Breadcrumbs>
+            )}
+
+            <Grid container item justify="flex-end">
+                <Button variant="contained" component={Link} to="/notes/new" color="primary" className={classes.button}>
+                    New Note
+                </Button>
+            </Grid>
+            <Grid container className={classes.root}>
+                <Grid item xs={12}>
+                    <NoteTable />
+>>>>>>> c0fb0961e2416a969e629eec3453b93923371b7e
                 </Grid>
             </Grid>
         </Container>
