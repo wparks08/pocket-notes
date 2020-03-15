@@ -44,7 +44,7 @@ function App() {
                     <Layout>
                         <MainContent>
                             <Switch>
-                                <Home />
+
                                 <PrivateRoutes exact path="/categories/:categoryID" component={Notes} />
                                 <PrivateRoutes exact path="/categories" component={Categories} />
                                 <PrivateRoutes exact path="/notes/:id" component={EditNote} />

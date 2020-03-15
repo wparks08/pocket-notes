@@ -19,13 +19,13 @@ class LoginControls extends Component {
         const { user } = this.props.auth;
         return (
             <List>
-                <ListItem button component={Link} to="/registerUser" onClick={this.props.handleDrawerToggle}>
+                <ListItem button component={Link} to="/registerUser">
                     <ListItemIcon>
                         <VpnKeyIcon />
                     </ListItemIcon>
                     <ListItemText primary="Register" />
                 </ListItem>
-                <ListItem button component={Link} to="/loginUser" onClick={this.props.handleDrawerToggle}>
+                <ListItem button component={Link} to="/loginUser" >
                     <ListItemIcon>
                         <VpnKeyIcon />
                     </ListItemIcon>
