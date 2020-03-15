@@ -16,6 +16,9 @@ function App() {
                 <Layout>
                     <MainContent>
                         <Switch>
+                            <Route path="/categories/:categoryID">
+                                <Notes />
+                            </Route>
                             <Route path="/categories">
                                 <Categories />
                             </Route>

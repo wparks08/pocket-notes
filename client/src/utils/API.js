@@ -34,14 +34,11 @@ export default {
         return axios.post("/api/categories", category);
     },
 
-    getNotesByCategory: (username, category) => {
-        // return new Promise((resolve, reject) => {
-        //     try {
-        //         const result = mockNotes.filter(note => note.username === username && note.category === category);
-        //         resolve(result);
-        //     } catch (error) {
-        //         reject(error);
-        //     }
-        // });
+    deleteCategory: id => {
+        return axios.delete(`/api/categories/${id}`);
+    },
+
+    getNotesByCategory: (username, categoryID) => {
+        return axios.get("/api/notes", { params: { username, categoryID } });
     }
 };

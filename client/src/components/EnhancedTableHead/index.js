@@ -6,13 +6,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-const headCells = [
-    { id: "title", numeric: false, label: "Title" },
-    { id: "category", numeric: false, label: "Category" },
-    { id: "date", numeric: false, label: "Date Entered" },
-    { id: "actions", numeric: true, label: "Actions" }
-];
-
 const useStyles = makeStyles(theme => ({
     visuallyHidden: {
         border: 0,
@@ -37,7 +30,7 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map(headCell => (
+                {props.headers.map(headCell => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? "right" : "left"}
@@ -70,7 +63,8 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
     order: PropTypes.string,
     orderBy: PropTypes.string,
-    onRequestSort: PropTypes.func
+    onRequestSort: PropTypes.func,
+    headers: PropTypes.array
 };
 
 export default EnhancedTableHead;
