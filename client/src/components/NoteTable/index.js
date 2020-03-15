@@ -31,7 +31,7 @@ function NoteTable() {
         };
 
         loadNotes();
-    }, []);
+    }, [categoryID]);
 
     const populateCategories = (noteArray, categoryArray) => {
         return noteArray.map(note => {

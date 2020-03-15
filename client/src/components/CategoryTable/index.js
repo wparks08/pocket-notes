@@ -8,7 +8,7 @@ const headCells = [
     { id: "actions", numeric: true, label: "Actions" }
 ];
 
-function CategoryTable() {
+function CategoryTable({ reload, setReload }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -20,6 +20,13 @@ function CategoryTable() {
 
         loadCategories();
     }, []);
+
+    useEffect(() => {
+        if (reload) {
+            loadCategories();
+            setReload(false);
+        }
+    }, [reload, setReload]);
 
     const handleDelete = id => {
         API.deleteCategory(id)
