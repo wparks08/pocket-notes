@@ -1,11 +1,11 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
 module.exports = function validateRegisterInput(data) {
-    let errors = {};
-    data.username = !isEmpty(data.username) ? data.username : "";
+    let error = {};
+    data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
 
-    if (Validator.isEmpty(data.username)) {
+    if (Validator.isEmpty(data.email)) {
         error.name = "Username must be entered";
     }
 
@@ -13,7 +13,7 @@ module.exports = function validateRegisterInput(data) {
         error.name = "Password cannot be empty";
     }
     return {
-        errors,
-        isValid: isEmpty(errors)
+        error,
+        isValid: isEmpty(error)
     };
 };

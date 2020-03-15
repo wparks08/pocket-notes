@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Notes() {
+    //Setting our component's initial state
     const classes = useStyles();
     const { categoryID } = useParams();
     const [categoryName, setCategoryName] = useState("");
@@ -38,10 +39,10 @@ function Notes() {
                     <Typography color="textPrimary">{categoryName}</Typography>
                 </Breadcrumbs>
             ) : (
-                <Breadcrumbs aria-label="breadcrumb">
-                    <Typography color="textPrimary">Notes</Typography>
-                </Breadcrumbs>
-            )}
+                    <Breadcrumbs aria-label="breadcrumb">
+                        <Typography color="textPrimary">Notes</Typography>
+                    </Breadcrumbs>
+                )}
 
             <Grid container item justify="flex-end">
                 <Button variant="contained" component={Link} to="/notes/new" color="primary" className={classes.button}>
