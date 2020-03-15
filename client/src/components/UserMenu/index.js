@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-=======
-import React, { useState } from "react";
->>>>>>> c0fb0961e2416a969e629eec3453b93923371b7e
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Menu } from "@material-ui/core";
