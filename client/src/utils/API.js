@@ -10,7 +10,6 @@ export default {
     },
 
     saveNote: note => {
-        note.username = "johnsmith";
         return axios.post("/api/notes", note);
     },
 

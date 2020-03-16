@@ -8,17 +8,19 @@ import Container from "@material-ui/core/Container";
 import NoteForm from "../../components/NoteForm";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
+import store from "../../store";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 function EditNote() {
+    const username = store.getState().auth.user.email;
     const { id } = useParams();
     const [noteId, setNoteId] = useState(id);
     const [note, setNote] = useState({
         date: new Date(),
-        username: "",
+        username: username,
         category: "",
         title: "",
         body: ""

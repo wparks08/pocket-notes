@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
@@ -13,10 +13,11 @@ class LoginControls extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
-        console.log("logging out")
+        console.log("logging out");
     };
     render() {
         const { user } = this.props.auth;
+        console.log(user);
         return (
             <List>
                 <ListItem button component={Link} to="/registerUser">
