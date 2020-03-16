@@ -1,6 +1,4 @@
-import store from "../store";
 const axios = require("axios");
-const username = store.getState().auth.user.email;
 
 export default {
     getNotes: username => {
@@ -12,7 +10,6 @@ export default {
     },
 
     saveNote: note => {
-        note.username = username;
         return axios.post("/api/notes", note);
     },
 

@@ -26,9 +26,11 @@ function Notes() {
     const [categoryName, setCategoryName] = useState("");
 
     useEffect(() => {
-        API.getCategory(categoryID)
-            .then(result => setCategoryName(result.data.category))
-            .catch(err => console.log(err));
+        if (categoryID) {
+            API.getCategory(categoryID)
+                .then(result => setCategoryName(result.data.category))
+                .catch(err => console.log(err));
+        }
     }, [categoryID]);
 
     return (
@@ -39,10 +41,10 @@ function Notes() {
                     <Typography color="textPrimary">{categoryName}</Typography>
                 </Breadcrumbs>
             ) : (
-                    <Breadcrumbs aria-label="breadcrumb">
-                        <Typography color="textPrimary">Notes</Typography>
-                    </Breadcrumbs>
-                )}
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Typography color="textPrimary">Notes</Typography>
+                </Breadcrumbs>
+            )}
 
             <Grid container item justify="flex-end">
                 <Button variant="contained" component={Link} to="/notes/new" color="primary" className={classes.button}>
