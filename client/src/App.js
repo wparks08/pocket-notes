@@ -13,6 +13,9 @@ import store from "./store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import PrivateRoutes from "./components/PrivateRoutes";
+import EditNote from "./pages/EditNote";
+
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -41,12 +44,11 @@ function App() {
                     <Layout>
                         <MainContent>
                             <Switch>
-                                <Route path="/categories">
-                                    <Categories />
-                                </Route>
-                                <Route path="/notes">
-                                    <Notes />
-                                </Route>
+
+                                <PrivateRoutes exact path="/categories/:categoryID" component={Notes} />
+                                <PrivateRoutes exact path="/categories" component={Categories} />
+                                <PrivateRoutes exact path="/notes/:id" component={EditNote} />
+                                <PrivateRoutes exact path="/notes" component={Notes} />
                                 <Route path="/registerUser">
                                     <Register />
                                 </Route>

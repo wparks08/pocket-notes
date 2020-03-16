@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import PropTypes from "prop-types";
 
 function TextEditor(props) {
-    //will probably need to lift this state to a parent component later
-    const [text, setText] = useState(props.text || "");
+    const { currentNote } = props;
 
-    //This will probably need to get lifted as well.
-    // -- `content` holds all of the user-input content of the text editor. This will be the value we're looking for when saving the note to the db --
     const handleEditorChange = content => {
-        setText(content);
+        props.setCurrentNote({ ...currentNote, body: content });
     };
 
     return (
         <Editor
-            initialValue={text}
+            value={currentNote.body}
             init={{
                 height: 500,
                 menubar: false,
@@ -29,7 +26,8 @@ function TextEditor(props) {
 }
 
 TextEditor.propTypes = {
-    text: PropTypes.string
+    currentNote: PropTypes.object,
+    setCurrentNote: PropTypes.func
 };
 
 export default TextEditor;
