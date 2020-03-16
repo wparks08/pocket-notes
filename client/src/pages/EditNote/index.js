@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import API from "../../utils/API";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import NoteForm from "../../components/NoteForm";
 import { Snackbar } from "@material-ui/core";
@@ -94,7 +94,7 @@ function EditNote() {
     return (
         <Container>
             <Breadcrumbs aria-label="breadcrumb">
-                <Link href="/notes">Notes</Link>
+                <Link to="/notes">Notes</Link>
                 <Typography color="textPrimary">{id === "new" ? "New Note" : "Edit Note"}</Typography>
             </Breadcrumbs>
             <NoteForm
