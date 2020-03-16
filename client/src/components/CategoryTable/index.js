@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PocketTable from "../PocketTable";
 import API from "../../utils/API";
 import CategoryRow from "../CategoryRow";
-
+import store from "../../store";
 const headCells = [
     { id: "category", numeric: false, label: "Category" },
     { id: "actions", numeric: true, label: "Actions" }
@@ -10,10 +10,10 @@ const headCells = [
 
 function CategoryTable({ reload, setReload }) {
     const [categories, setCategories] = useState([]);
-
+    const username = store.getState().auth.user.email;
     useEffect(() => {
         const loadCategories = () => {
-            API.getCategories("johnsmith")
+            API.getCategories(username)
                 .then(response => setCategories(response.data))
                 .catch(err => console.log(err));
         };
@@ -37,7 +37,7 @@ function CategoryTable({ reload, setReload }) {
     };
 
     const loadCategories = () => {
-        API.getCategories("johnsmith")
+        API.getCategories(username)
             .then(response => setCategories(response.data))
             .catch(err => console.log(err));
     };

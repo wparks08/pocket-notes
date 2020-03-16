@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API";
 import NewCategoryDialog from "../../components/NewCategoryDialog";
+import store from "../../store";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -19,7 +20,7 @@ function Categories() {
     const classes = useStyles();
     const [reload, setReload] = useState(false);
     const [newCategoryOpen, setNewCategoryOpen] = useState(false);
-
+    const username = store.getState().auth.user.email;
     const handleClickOpen = () => {
         setNewCategoryOpen(true);
     };
@@ -31,7 +32,7 @@ function Categories() {
     const handleSubmit = event => {
         event.preventDefault();
         const category = event.target.category.value;
-        API.saveCategory({ category, username: "johnsmith" })
+        API.saveCategory({ category, username: username })
             .then(() => {
                 setReload(true);
                 handleClose();

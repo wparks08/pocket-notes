@@ -3,12 +3,13 @@ import NoteRow from "../NoteRow";
 import API from "../../utils/API";
 import PocketTable from "../PocketTable";
 import { useParams } from "react-router-dom";
+import store from "../../store";
 
 function NoteTable() {
     const [notes, setNotes] = useState([]);
 
     const { categoryID } = useParams();
-
+    const username = store.getState().auth.user.email;
     const headCells = [
         { id: "title", numeric: false, label: "Title" },
         { id: "category", numeric: false, label: "Category" },
@@ -18,11 +19,11 @@ function NoteTable() {
 
     useEffect(() => {
         const loadNotes = () => {
-            const getNotes = categoryID ? API.getNotesByCategory("johnsmith", categoryID) : API.getNotes("johnsmith");
+            const getNotes = categoryID ? API.getNotesByCategory(username, categoryID) : API.getNotes(username);
             getNotes
                 .then(response => {
                     let notes = response.data;
-                    API.getCategories("johnsmith").then(response => {
+                    API.getCategories(username).then(response => {
                         let categories = response.data;
                         setNotes(populateCategories(notes, categories));
                     });
@@ -49,10 +50,10 @@ function NoteTable() {
     };
 
     const loadNotes = () => {
-        API.getNotes("johnsmith")
+        API.getNotes(username)
             .then(response => {
                 let notes = response.data;
-                API.getCategories("johnsmith").then(response => {
+                API.getCategories(username).then(response => {
                     let categories = response.data;
                     setNotes(populateCategories(notes, categories));
                 });

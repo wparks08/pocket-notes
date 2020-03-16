@@ -3,13 +3,14 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import PropTypes from "prop-types";
 import API from "../../utils/API";
+import store from "../../store";
 
 const filter = createFilterOptions();
 
 function CategoryAutocomplete(props) {
     const [value, setValue] = useState(null);
     const { categories, setCategories, handleCategoryChange, initialValue } = props;
-
+    const username = store.getState().auth.user.email;
     useEffect(() => {
         if (initialValue) {
             setValue(initialValue);
@@ -22,7 +23,7 @@ function CategoryAutocomplete(props) {
             onChange={(event, newValue) => {
                 if (newValue && newValue.inputValue) {
                     API.saveCategory({
-                        username: "johnsmith",
+                        username: username,
                         category: newValue.inputValue
                     }).then(newCategory => {
                         setCategories([...categories, newCategory.data]);

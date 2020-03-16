@@ -10,6 +10,7 @@ import { green } from "@material-ui/core/colors";
 import { CircularProgress } from "@material-ui/core";
 import CategoryAutocomplete from "../CategoryAutocomplete";
 import API from "../../utils/API";
+import store from "../../store";
 
 const useStyles = makeStyles(theme => ({
     wrapper: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function NoteForm(props) {
+    const username = store.getState().auth.user.email;
     const classes = useStyles();
     const { note, handleChange, handleFormSubmit, setNote, saving, handleCategoryChange } = props;
     const { title } = note;
@@ -44,7 +46,7 @@ function NoteForm(props) {
 
     useEffect(() => {
         const loadCategories = () => {
-            API.getCategories("johnsmith")
+            API.getCategories(username)
                 .then(result => {
                     setCategories(result.data);
                 })
