@@ -4,9 +4,9 @@ const initialState = {
     isAuthenticated: false,
     user: {},
     loading: false
-}
+};
 //reducer function states hpw state properties should change given an action, in this case isAuthenticated, for use throughout the apps components
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
     switch (action.type) {
         case SET_CURRENT_USER:
             return {

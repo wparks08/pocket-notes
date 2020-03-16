@@ -38,7 +38,7 @@ class Login extends Component {
         return (
             <div className="container">
                 <p className="">
-                    Don't have an account? <Link to="/register">Register</Link>
+                    Don't have an account? <Link to="/registerUser">Register</Link>
                 </p>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="">
