@@ -16,29 +16,35 @@ class LoginControls extends Component {
         console.log("logging out");
     };
     render() {
-        const { user } = this.props.auth;
-        console.log(user);
+        const { isAuthenticated } = this.props.auth;
+        console.log(isAuthenticated);
         return (
-            <List>
-                <ListItem button component={Link} to="/registerUser">
-                    <ListItemIcon>
-                        <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Register" />
-                </ListItem>
-                <ListItem button component={Link} to="/loginUser" >
-                    <ListItemIcon>
-                        <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login" />
-                </ListItem>
-                <ListItem button onClick={this.onLogoutClick}>
-                    <ListItemIcon>
-                        <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Sign Out" />
-                </ListItem>
-            </List>
+            isAuthenticated === true ? (
+                <List>
+                    <ListItem button onClick={this.onLogoutClick}>
+                        <ListItemIcon>
+                            <VpnKeyIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Sign Out" />
+                    </ListItem>
+                </ List>
+            ) : (
+                    <List>
+                        <ListItem button component={Link} to="/registerUser">
+                            <ListItemIcon>
+                                <VpnKeyIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Register" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/loginUser">
+                            <ListItemIcon>
+                                <VpnKeyIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Login" />
+                        </ListItem>
+                    </List>
+                )
+
         );
     }
 }

@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 
 module.exports = app => {
     app.post("/registerUser", (req, res, next) => {
-        console.log(req.body);
         const { error, isValid } = validateRegisterInput(req.body);
         // Check validation
         if (!isValid) {
@@ -21,7 +20,6 @@ module.exports = app => {
                     email: req.body.email,
                     password: hash
                 }).then(user => {
-                    console.log(user);
                     res.status(200).json(user);
                 });
             });

@@ -30,7 +30,6 @@ class Login extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        console.log(sensitiveData);
         this.props.loginUser(sensitiveData, this.props.history);
     };
     render() {
