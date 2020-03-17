@@ -13,6 +13,8 @@ class LoginControls extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
+        this.props.onLogout(false);
+        window.location = "/";
         console.log("logging out");
     };
     render() {

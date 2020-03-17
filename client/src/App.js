@@ -54,7 +54,7 @@ function App() {
                 ) : (
                     <Router>
                         <CssBaseline />
-                        <Layout>
+                        <Layout onLogout={setAuthenticated}>
                             <MainContent>
                                 <Switch>
                                     <PrivateRoutes exact path="/categories/:categoryID" component={Notes} />

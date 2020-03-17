@@ -25,7 +25,7 @@ function Layout(props) {
 
     return (
         <div className={classes.root}>
-            <Topbar handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />
+            <Topbar handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} onLogout={props.onLogout} />
             <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />
             {props.children}
         </div>

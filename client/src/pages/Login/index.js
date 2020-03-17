@@ -66,6 +66,7 @@ class Login extends Component {
                                             style={{ marginBottom: 16 }}
                                             onChange={this.onChange}
                                             value={this.state.email}
+                                            autoComplete="username"
                                         />
                                         <TextField
                                             id="password"
@@ -77,6 +78,7 @@ class Login extends Component {
                                             type="password"
                                             onChange={this.onChange}
                                             value={this.state.password}
+                                            autoComplete="current-password"
                                         />
                                     </Grid>
                                     <Grid item container xs={12} justify="center">
@@ -108,46 +110,6 @@ class Login extends Component {
                         </Paper>
                     </Grid>
                 </Grid>
-                {/*<p className="">*/}
-                {/*    Don't have an account? <Link to="/register">Register</Link>*/}
-                {/*</p>*/}
-                {/*<form noValidate onSubmit={this.onSubmit}>*/}
-                {/*    <div className="">*/}
-                {/*        <input*/}
-                {/*            onChange={this.onChange}*/}
-                {/*            value={this.state.email}*/}
-                {/*            error={error.email}*/}
-                {/*            id="email"*/}
-                {/*            name="email"*/}
-                {/*            type="email"*/}
-                {/*        />*/}
-                {/*        <label htmlFor="email">email</label>*/}
-                {/*    </div>*/}
-                {/*    <div className="">*/}
-                {/*        <input*/}
-                {/*            onChange={this.onChange}*/}
-                {/*            value={this.state.password}*/}
-                {/*            error={error.password}*/}
-                {/*            id="password"*/}
-                {/*            type="password"*/}
-                {/*        />*/}
-                {/*        <label htmlFor="password">Password</label>*/}
-                {/*    </div>*/}
-                {/*    <div className="" style={{ paddingLeft: "11.250px" }}>*/}
-                {/*        <button*/}
-                {/*            style={{*/}
-                {/*                width: "150px",*/}
-                {/*                borderRadius: "3px",*/}
-                {/*                letterSpacing: "1.5px",*/}
-                {/*                marginTop: "1rem"*/}
-                {/*            }}*/}
-                {/*            type="submit"*/}
-                {/*            className=""*/}
-                {/*        >*/}
-                {/*            Login*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*</form>*/}
             </Container>
         );
     }
