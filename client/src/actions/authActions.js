@@ -27,7 +27,7 @@ export const loginUser = (sensitiveData, history, setAuthenticated) => dispatch 
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
             setAuthenticated(true);
-            history.push("/notes");
+            history.push("/");
         })
         .catch(err => {
             dispatch({
