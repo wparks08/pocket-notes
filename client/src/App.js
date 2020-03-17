@@ -61,15 +61,7 @@ function App() {
                                     <PrivateRoutes exact path="/categories" component={Categories} />
                                     <PrivateRoutes exact path="/notes/:id" component={EditNote} />
                                     <PrivateRoutes exact path="/notes" component={Notes} />
-                                    <Route path="/registerUser">
-                                        <Register />
-                                    </Route>
-                                    <Route path="/loginUser">
-                                        <Login />
-                                    </Route>
-                                    <Route path="/">
-                                        <Home />
-                                    </Route>
+                                    <PrivateRoutes exact path="/" component={Home} />
                                 </Switch>
                             </MainContent>
                         </Layout>
