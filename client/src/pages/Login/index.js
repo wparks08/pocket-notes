@@ -1,106 +1,96 @@
-import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
+import { withRouter } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: "flex",
-        height: "100vh",
-        backgroundColor: theme.palette.primary.dark
-    },
-    form: {
-        padding: theme.spacing(5)
-    },
-    textField: {
-        marginBottom: theme.spacing(2)
-    },
-    button: {
-        margin: theme.spacing(1, 0)
+class Login extends Component {
+    constructor() {
+        super();
+        this.state = {
+            email: "",
+            password: "",
+            error: {}
+        };
     }
-}));
-
-function Login() {
-    const classes = useStyles();
-    const [credentials, setCredentials] = useState({
-        username: "",
-        password: ""
-    });
-
-    const handleInputChange = event => {
-        const { name, value } = event.target;
-
-        setCredentials({ ...credentials, [name]: value });
+    componentDidMount() {
+        // If logged in and user navigates to Login page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/dashboard");
+        }
+    }
+    onChange = e => {
+        this.setState({ [e.target.id]: e.target.value });
     };
-
-    return (
-        <Container className={classes.root} maxWidth="xl">
-            <Grid container justify="center" alignItems="center">
-                <Grid item xs={12} md={6} lg={4}>
-                    <Paper>
-                        <form className={classes.form}>
-                            <Grid container justify="center">
-                                <Grid item>
-                                    <Typography variant="h4" color="textSecondary">
-                                        Sign In
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container justify="center">
-                                <Grid item xs={12}>
-                                    <TextField
-                                        id="username"
-                                        name="username"
-                                        label="Username"
-                                        fullWidth
-                                        className={classes.textField}
-                                        onChange={handleInputChange}
-                                    />
-                                    <TextField
-                                        id="password"
-                                        name="password"
-                                        label="Password"
-                                        fullWidth
-                                        className={classes.textField}
-                                        type="password"
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item container xs={12} justify="center">
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.button}
-                                            type="submit"
-                                        >
-                                            Login
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container xs={12} justify="center">
-                                    <Grid item xs={12}>
-                                        <Typography align="center" variant="subtitle2">
-                                            Not registered yet? Click here:
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button variant="contained" color="primary" className={classes.button}>
-                                            Register
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </form>
-                    </Paper>
-                </Grid>
-            </Grid>
-        </Container>
-    );
+    onSubmit = e => {
+        e.preventDefault();
+        const sensitiveData = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        console.log(sensitiveData);
+        this.props.loginUser(sensitiveData, this.props.history);
+    };
+    render() {
+        const { error } = this.state;
+        return (
+            <div className="container">
+                <p className="">
+                    Don't have an account? <Link to="/registerUser">Register</Link>
+                </p>
+                <form noValidate onSubmit={this.onSubmit}>
+                    <div className="">
+                        <input
+                            onChange={this.onChange}
+                            value={this.state.email}
+                            error={error.email}
+                            id="email"
+                            name="email"
+                            type="email"
+                        />
+                        <label htmlFor="email">email</label>
+                    </div>
+                    <div className="">
+                        <input
+                            onChange={this.onChange}
+                            value={this.state.password}
+                            error={error.password}
+                            id="password"
+                            type="password"
+                        />
+                        <label htmlFor="password">Password</label>
+                    </div>
+                    <div className="" style={{ paddingLeft: "11.250px" }}>
+                        <button
+                            style={{
+                                width: "150px",
+                                borderRadius: "3px",
+                                letterSpacing: "1.5px",
+                                marginTop: "1rem"
+                            }}
+                            type="submit"
+                            className=""
+                        >
+                            Login
+                  </button>
+                    </div>
+                </form>
+            </div>
+        );
+    }
 }
-
-export default Login;
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    auth: state.auth,
+    error: state.error
+});
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(withRouter(Login));
