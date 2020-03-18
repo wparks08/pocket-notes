@@ -8,7 +8,7 @@ export const registerUser = (newUser, history) => dispatch => {
     axios
         .post("/registerUser", newUser)
         //redirects to login upon registration here
-        .then(res => history.push("/loginUser"))
+        .then(res => history.push("/login"))
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
