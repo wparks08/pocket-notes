@@ -8,7 +8,7 @@ export const registerUser = (newUser, history) => dispatch => {
     axios
         .post("/registerUser", newUser)
         //redirects to login upon registration here
-        .then(res => history.push("/loginUser"))
+        .then(res => history.push("/login"))
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -16,7 +16,7 @@ export const registerUser = (newUser, history) => dispatch => {
             });
         });
 };
-export const loginUser = (sensitiveData, history) => dispatch => {
+export const loginUser = (sensitiveData, history, setAuthenticated) => dispatch => {
     axios
         .post("/loginUser", sensitiveData)
         .then(res => {
@@ -26,7 +26,8 @@ export const loginUser = (sensitiveData, history) => dispatch => {
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
-            history.push("/notes");
+            setAuthenticated(true);
+            history.push("/");
         })
         .catch(err => {
             dispatch({

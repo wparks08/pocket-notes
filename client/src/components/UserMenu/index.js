@@ -7,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import LoginControls from "../LoginControls";
 
-function UserMenu() {
+function UserMenu(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -35,7 +35,7 @@ function UserMenu() {
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Settings</MenuItem>
                 <Divider />
-                <LoginControls />
+                <LoginControls onLogout={props.onLogout} />
             </Menu>
         </>
     );

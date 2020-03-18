@@ -13,6 +13,8 @@ class LoginControls extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
+        this.props.onLogout(false);
+        window.location = "/";
         console.log("logging out");
     };
     render() {
@@ -20,18 +22,18 @@ class LoginControls extends Component {
         console.log(user);
         return (
             <List>
-                <ListItem button component={Link} to="/registerUser">
-                    <ListItemIcon>
-                        <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Register" />
-                </ListItem>
-                <ListItem button component={Link} to="/loginUser" >
-                    <ListItemIcon>
-                        <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login" />
-                </ListItem>
+                {/*<ListItem button component={Link} to="/registerUser">*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <VpnKeyIcon />*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Register" />*/}
+                {/*</ListItem>*/}
+                {/*<ListItem button component={Link} to="/loginUser" >*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <VpnKeyIcon />*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Login" />*/}
+                {/*</ListItem>*/}
                 <ListItem button onClick={this.onLogoutClick}>
                     <ListItemIcon>
                         <VpnKeyIcon />

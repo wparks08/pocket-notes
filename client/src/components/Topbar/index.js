@@ -44,7 +44,7 @@ function Topbar(props) {
                 <Typography variant="h6" noWrap className={classes.title}>
                     Pocket Notes
                 </Typography>
-                <UserMenu />
+                <UserMenu onLogout={props.onLogout} />
             </Toolbar>
         </AppBar>
     );

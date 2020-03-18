@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "./components/Layout";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MainContent from "./components/MainContent";
@@ -15,7 +15,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoutes from "./components/PrivateRoutes";
 import EditNote from "./pages/EditNote";
-
+import Landing from "./pages/Landing";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -36,32 +36,41 @@ if (localStorage.jwtToken) {
     }
 }
 function App() {
+    const [authenticated, setAuthenticated] = useState(false);
+
     return (
         <div className="App">
             <Provider store={store}>
-                <Router>
-                    <CssBaseline />
-                    <Layout>
-                        <MainContent>
-                            <Switch>
-
-                                <PrivateRoutes exact path="/categories/:categoryID" component={Notes} />
-                                <PrivateRoutes exact path="/categories" component={Categories} />
-                                <PrivateRoutes exact path="/notes/:id" component={EditNote} />
-                                <PrivateRoutes exact path="/notes" component={Notes} />
-                                <Route path="/registerUser">
-                                    <Register />
-                                </Route>
-                                <Route path="/loginUser">
-                                    <Login />
-                                </Route>
-                                <Route path="/">
-                                    <Home />
-                                </Route>
-                            </Switch>
-                        </MainContent>
-                    </Layout>
-                </Router>
+                {!authenticated ? (
+                    <Router>
+                        <Switch>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Route path="/login">
+                                <Login onAuthenticated={setAuthenticated} />
+                            </Route>
+                            <Route exact path="/">
+                                <Landing />
+                            </Route>
+                        </Switch>
+                    </Router>
+                ) : (
+                    <Router>
+                        <CssBaseline />
+                        <Layout onLogout={setAuthenticated}>
+                            <MainContent>
+                                <Switch>
+                                    <PrivateRoutes exact path="/categories/:categoryID" component={Notes} />
+                                    <PrivateRoutes exact path="/categories" component={Categories} />
+                                    <PrivateRoutes exact path="/notes/:id" component={EditNote} />
+                                    <PrivateRoutes exact path="/notes" component={Notes} />
+                                    <PrivateRoutes exact path="/" component={Home} />
+                                </Switch>
+                            </MainContent>
+                        </Layout>
+                    </Router>
+                )}
             </Provider>
         </div>
     );
