@@ -15,6 +15,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoutes from "./components/PrivateRoutes";
 import EditNote from "./pages/EditNote";
+import Landing from "./pages/Landing";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -46,8 +47,11 @@ function App() {
                             <Route path="/register">
                                 <Register />
                             </Route>
-                            <Route path="/">
+                            <Route path="/login">
                                 <Login onAuthenticated={setAuthenticated} />
+                            </Route>
+                            <Route exact path="/">
+                                <Landing />
                             </Route>
                         </Switch>
                     </Router>
