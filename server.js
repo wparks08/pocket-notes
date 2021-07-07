@@ -39,8 +39,11 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-// Connect to Mongo DB 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
+// Connect to Mongo DB
+mongoose.connect(process.env.MONGODB_URI, {
+    user: process.env.MONGODB_USER,
+    pass: process.env.MONGODB_PASS
+});
 
 // Start server
 app.listen(PORT, () => {
