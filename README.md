@@ -30,11 +30,17 @@ npm i
 npm install
 ```
 
-Then, create a file named `.env` in the root of the project. Supply the following variable:
+Then, create a file named `.env` in the root of the project. Supply the following variables:
 
 ```
 CLIENT_SECRET
+
+MONGODB_URI
+MONGODB_USER
+MONGODB_PASS
 ```
+- `CLIENT_SECRET` can be any string.
+- Variables prefixed with `MONGODB` are your database connection strings. Refer to your Mongo instance/cluster (local, Atlas, etc.) for these variables.
 
 To make sure everything is set up correctly, `npm start` from the root directory. This will launch the Express server and React app concurrently.
 
@@ -46,9 +52,10 @@ This app is set up to be deployed on Heroku. Using the Heroku CLI, follow these 
 
 ```shell script
 heroku create
-heroku addons:create mongolab
 git push heroku master
 ```
+
+You will then need to set the Heroku config vars to match your `.env` file.
 
 ## Built With
 
